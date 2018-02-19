@@ -27,7 +27,7 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => 'IOT',
+        'brandLabel' => 'Internet of Things',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
@@ -36,12 +36,11 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
-			['label' => 'Help', 'url' => ['/site/help']],
+//            ['label' => 'Home', 'url' => ['/site/index']],
+            ['label' => 'Про проект', 'url' => ['/site/about']],
+            ['label' => 'Контакти', 'url' => ['/site/contact']],
             Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/user/login']]
+            ['label' => 'Увійти', 'url' => ['/user/login']]
             ) : (
                 '<li>'
                 . Html::beginForm(['/site/logout'], 'post')
@@ -67,9 +66,10 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; IOT <?= date('d M Y ') ?></p>
+        <p class="pull-left">&copy; IoT.kpi.ua <?= date('Y') ?></p>
 
-       
+<!--        <p class="pull-right">--><?//= Yii::powered() ?><!--</p>-->
+        <p class="pull-right">Радіотехнічний факультет</p>
     </div>
 </footer>
 

@@ -1,0 +1,68 @@
+
+
+
+
+CREATE TABLE IF NOT EXISTS `time_sheet` (
+`id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `location_id` int(11) NOT NULL,
+  `time_start` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `time_finish` datetime NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+ALTER TABLE `time_sheet`
+ ADD PRIMARY KEY (`id`), ADD KEY `user_id` (`user_id`), ADD KEY `location_id` (`location_id`);
+
+ALTER TABLE `time_sheet`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+
+ALTER TABLE `time_sheet`
+ADD CONSTRAINT `time_sheet_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+ADD CONSTRAINT `time_sheet_ibfk_2` FOREIGN KEY (`location_id`) REFERENCES `location` (`location_id`);
+
+
+-----
+
+ALTER TABLE `profile` ADD `uid` VARCHAR(64) NOT NULL AFTER `bio`;
+
+-----
+
+CREATE TABLE `state` (
+  `param` varchar(64) NOT NULL,
+  `value` varchar(256) NOT NULL,
+  `date_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `state` (`param`, `value`, `date_modified`) VALUES
+('rfid_capture', '0', '2017-10-20 17:33:57'),
+('rfid_update', '0', '2017-10-20 17:33:57'),
+('uid_capture', '0', '2017-10-21 18:19:58');
+
+
+ALTER TABLE `state`
+  ADD UNIQUE KEY `param` (`param`);
+
+
+----
+CREATE TABLE `location` (
+  `location_id` int(11) NOT NULL,
+  `location_name` varchar(255) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `telephone` varchar(255) NOT NULL,
+  `rfid_id` varchar(128) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+INSERT INTO `location` (`location_id`, `location_name`, `address`, `telephone`, `rfid_id`) VALUES
+(1, '518', 'ТОР', '', ''),
+(2, '516', 'ТОР', '', ''),
+(3, '527', 'ТОР', '', ''),
+(4, '505', 'Mikrotik', '', '');
+
+ALTER TABLE `location`
+  ADD PRIMARY KEY (`location_id`),
+  ADD UNIQUE KEY `location_name` (`location_name`);
+
+ALTER TABLE `location`
+  MODIFY `location_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+

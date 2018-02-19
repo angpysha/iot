@@ -2,12 +2,15 @@
 
 namespace app\controllers;
 
+use app\models\Smoke;
+use app\models\User;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use yii\web\Response;
 
 class SiteController extends Controller
 {
@@ -51,10 +54,12 @@ class SiteController extends Controller
     {
         return $this->render('index');
     }
-	 public function actionHelp()
+
+    public function actionHelp()
     {
         return $this->render('help');
     }
+
     public function actionLogin()
     {
         if (!\Yii::$app->user->isGuest) {
@@ -94,4 +99,44 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
+
+    public function actionSmoke($fume, $temp, $location)
+    {
+        $smoke = new Smoke();
+        $smoke->fume = $fume;
+        $smoke->temp = $temp;
+        $smoke->location = $location;
+        $smoke->save();
+        return $this->render('smoke');
+    }
+
+    public function actionSmokeview()
+    {
+        $values = Smoke::find()->asArray()->all();
+//        echo "<br/>";
+//        echo "<br/>";
+//        echo "<br/>";
+        foreach ($values as $key=>$value ){
+            $fume[$key] = intval($value["fume"]);
+            $temp[$key] = intval($value["temp"]);
+        }
+//        var_dump($fume);
+//        var_dump($temp);
+        return $this->render('smokeview',[
+            'fume' => $fume,
+            'temp' => $temp,
+        ]);
+    }
+
+//    public function actionJson()
+//    {
+//        $models = User::find()->all();
+//
+//        $data = array_map(function ($model) {return $model->attributes;}, $models);
+//
+//        $response = Yii::$app->response;
+//        $response->format = Response::FORMAT_JSON;
+//        $response->data = $data;
+//        return $response;
+//    }
 }
