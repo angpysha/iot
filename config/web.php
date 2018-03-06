@@ -6,7 +6,7 @@ $db = require __DIR__ . '/db.php';
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log','oauth2'],
     'modules' => [
         'user' => [
             'class' => 'dektrium\user\Module',
@@ -22,6 +22,28 @@ $config = [
                 'RegistrationForm' => 'app\models\RegistrationForm',
                 //'Profile' => 'app\models\Profile',
             ],
+
+        ],
+        'v1' => [
+            'basePath' => '@app/modules/v1',
+            'class' => 'app\modules\v1\Api'
+        ],
+        'oauth2' => [
+            'class' => 'filsh\yii2\oauth2server\Module',
+            'tokenParamName' => 'accessToken',
+            'tokenAccessLifetime' => 3600 * 24,
+            'storageMap' => [
+                'user_credentials' => 'common\models\User',
+            ],
+            'grantTypes' => [
+                'user_credentials' => [
+                    'class' => 'OAuth2\GrantType\UserCredentials',
+                ],
+                'refresh_token' => [
+                    'class' => 'OAuth2\GrantType\RefreshToken',
+                    'always_issue_new_refresh_token' => true
+                ]
+            ]
         ],
         'admin' => [
             'class' => 'mdm\admin\Module',
@@ -60,6 +82,7 @@ $config = [
             'gii/*',
             'film/*',
             'films/*',
+            'swagger/*'
 //            'versioning/*',
 
             // The actions listed here will be allowed to everyone including guests.
@@ -77,9 +100,9 @@ $config = [
                 ],
             ],
         ],
-        'authManager' => [
-            'class' => 'yii\rbac\DbManager', // or use 'yii\rbac\PhpManager'
-        ],
+//        'authManager' => [
+//            'class' => 'yii\rbac\DbManager', // or use 'yii\rbac\PhpManager'
+//        ],
         'authClientCollection' => [
             'class' => yii\authclient\Collection::className(),
             'clients' => [
@@ -149,6 +172,27 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'POST oauth2/<action:\w+>' => 'oauth2/rest/<action>',
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'dht',
+                    'extraPatterns' => [
+                        'GET test' => 'test',
+                        'POST add' => 'add',
+                        'PUT update/<id:\d+>' => 'update',
+                        'DELETE delete/<id:\d+>' => 'delete',
+                        'POST,GET last' => 'last',
+                        'POST get/<id:\d+>' => 'get',
+                        'POST search' => 'search',
+                        'POST datecount' => 'datecount',
+                        'POST first' => 'first',
+                        'POST sendevent' => 'sendevent',
+                        'POST firstlastdates' => 'firstlastdates',
+                        'GET index' => 'index'
+                    ]],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/default', 'extraPatterns' => [
+
+                ]],
+//                    'api/<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+                'swagger' => 'v1/default/docs',
 //                '<controller>/<action>' => '<controller>/<action>'
             ],
         ],
