@@ -23,27 +23,6 @@ class DhtController extends Controller implements ISensorController
 {
     public $enableCsrfValidation =false;
 
-    public function behaviors()
-    {
-        return ArrayHelper::merge(parent::behaviors(), [
-            'authenticator' => [
-                'class' => CompositeAuth::className(),
-                'authMethods' => [
-                    ['class' => HttpBearerAuth::className()],
-                    ['class' => QueryParamAuth::className(), 'tokenParam' => 'accessToken'],
-                ]
-            ],
-            'exceptionFilter' => [
-                'class' => ErrorToExceptionFilter::className()
-            ],
-            [
-                'allow' => true,
-                'actions' => ['login', 'signup','last'],
-                'roles' => ['?'],
-            ],
-        ]);
-    }
-
     public function actionIndex()
     {
         $query = DhtData::find();

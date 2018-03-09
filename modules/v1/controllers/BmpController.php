@@ -30,64 +30,6 @@ use yii\filters\VerbFilter;
 class BmpController extends Controller implements ISensorController
 {
 
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'actions' => ['login', 'error','last'],
-                        'allow' => true
-                    ],
-                    [
-                        'actions' => ['logout', 'index'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                    [
-                        'allow' => true,
-                        'actions' => ['reset'],
-                        'roles' => ['?'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post', 'get'],
-                ],
-            ],
-        ];
-//        return ArrayHelper::merge(parent::behaviors(), [
-////            'authenticator' => [
-////                'class' => CompositeAuth::className(),
-////                'authMethods' => [
-////                    ['class' => HttpBearerAuth::className()],
-////                    ['class' => QueryParamAuth::className(), 'tokenParam' => 'accessToken'],
-////                ]
-////            ],
-////            'exceptionFilter' => [
-////                'class' => ErrorToExceptionFilter::className()
-////            ],
-//            'access' => [
-//                'class' => 'yii\filters\AccessControl',
-//                'rules' => [
-//                    [
-//                        'allow' => true,
-//                        'actions' => ['create', 'update','last'],
-//                    ],
-//                ],
-//            ],
-//            'verbs' => [
-//                'class' => VerbFilter::className(),
-//                'actions' => [
-//                    'last' => ['post'],
-//                ],
-//            ],
-//        ]);
-    }
-
     public function actionIndex()
     {
         $query = Bmp180::find();

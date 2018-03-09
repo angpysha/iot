@@ -40,7 +40,7 @@ class DefaultController extends Controller
             ],
             'docs' => [
                 'class' => 'yii2mod\swagger\SwaggerUIRenderer',
-                'restUrl' => Url::to(['site/json']),
+                'restUrl' => Url::to(['default/json']),
             ],
             'json' => [
                 'class' => 'yii2mod\swagger\OpenAPIRenderer',

@@ -62,9 +62,13 @@ $config = [
     'as access' => [
         'class' => 'mdm\admin\components\AccessControl',
         'allowActions' => [
+            'v1/default/*',
+            'v1/*',
             'admin/*', // add or remove allowed actions to this list
+            'dht/*',
             'user/*',
             'room/*',
+            'swagger/*',
             'api/*',
             'location/*',
             'receipt/*',
@@ -82,7 +86,7 @@ $config = [
             'gii/*',
             'film/*',
             'films/*',
-            'swagger/*'
+
 //            'versioning/*',
 
             // The actions listed here will be allowed to everyone including guests.
@@ -100,9 +104,9 @@ $config = [
                 ],
             ],
         ],
-//        'authManager' => [
-//            'class' => 'yii\rbac\DbManager', // or use 'yii\rbac\PhpManager'
-//        ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager', // or use 'yii\rbac\PhpManager'
+        ],
         'authClientCollection' => [
             'class' => yii\authclient\Collection::className(),
             'clients' => [
@@ -173,13 +177,28 @@ $config = [
             'showScriptName' => false,
             'rules' => [
                 'POST oauth2/<action:\w+>' => 'oauth2/rest/<action>',
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'dht',
+                ['class' => 'yii\rest\UrlRule', 'prefix' => '/api','controller' => 'v1/dht',
                     'extraPatterns' => [
                         'GET test' => 'test',
                         'POST add' => 'add',
                         'PUT update/<id:\d+>' => 'update',
                         'DELETE delete/<id:\d+>' => 'delete',
                         'POST,GET last' => 'last',
+                        'POST get/<id:\d+>' => 'get',
+                        'POST search' => 'search',
+                        'POST datecount' => 'datecount',
+                        'POST first' => 'first',
+                        'POST sendevent' => 'sendevent',
+                        'POST firstlastdates' => 'firstlastdates',
+                        'GET index' => 'index'
+                    ]],
+                ['class' => 'yii\rest\UrlRule', 'prefix' => '/api', 'controller' => 'v1/bmp',
+                    'extraPatterns' => [
+                        'GET test' => 'test',
+                        'POST add' => 'add',
+                        'PUT update/<id:\d+>' => 'update',
+                        'DELETE delete/<id:\d+>' => 'delete',
+                        'POST last' => 'last',
                         'POST get/<id:\d+>' => 'get',
                         'POST search' => 'search',
                         'POST datecount' => 'datecount',
