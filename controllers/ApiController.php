@@ -163,10 +163,35 @@ class ApiController extends Controller
         }
     }
 
-    private function xor_this($string) {
+    public function actionTest()
+    {
+        $string = '1318332DAEE6CEBEA9387';
 
+//        // 476f20706c616369646c7920616d6964737420746865206e6f697365
+        // Go placidly amidst the noise
+//        echo $hexstr;
+//        echo $strstr;
+
+
+        $str = $this->xor_this($string) ;
+        $hexstr = $this->str_to_hex($str);
+        echo sha1("abc");
+    }
+
+    function str_to_hex($string) {
+        $hexstr = unpack('H*', $string);
+        return array_shift($hexstr);
+    }
+
+    function hex_to_str($string) {
+        return hex2bin("$string");
+    }
+
+    public function xor_this($string) {
+
+        $str = "A94A8FE5CCB19BA61C4C0873D391E987982FBBD3";
         // Let's define our key here
-        $key = ('magic_key');
+        $key = $this->hex_to_str($str);
 
         // Our plaintext/ciphertext
         $text = $string;
@@ -180,7 +205,7 @@ class ApiController extends Controller
             for($j=0; ($j<strlen($key) && $i<strlen($text)); $j++,$i++)
             {
                 $outText .= $text{$i} ^ $key{$j};
-                echo 'i=' . $i . ', ' . 'j=' . $j . ', ' . $outText{$i} . '<br />'; // For debugging
+//                echo 'i=' . $i . ', ' . 'j=' . $j . ', ' . $outText{$i} . '<br />'; // For debugging
             }
         }
         return $outText;
