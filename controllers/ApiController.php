@@ -75,6 +75,9 @@ class ApiController extends Controller
 
                 // Check Assignment of location to RFID_id and user to uid
                 if(isset($location_id) && isset($user_id)){
+                    $str = "Hello";
+                    echo sha1($str);
+
 //                    if(isset($tsheet)){
 //                        $ts = TimeSheet::findOne((int)$tsheet->id);
 //                        $ts->time_finish = date('Y-m-d H:i:s', time());
@@ -158,6 +161,29 @@ class ApiController extends Controller
 
             return $var;
         }
+    }
+
+    private function xor_this($string) {
+
+        // Let's define our key here
+        $key = ('magic_key');
+
+        // Our plaintext/ciphertext
+        $text = $string;
+
+        // Our output text
+        $outText = '';
+
+        // Iterate through each character
+        for($i=0; $i<strlen($text); )
+        {
+            for($j=0; ($j<strlen($key) && $i<strlen($text)); $j++,$i++)
+            {
+                $outText .= $text{$i} ^ $key{$j};
+                echo 'i=' . $i . ', ' . 'j=' . $j . ', ' . $outText{$i} . '<br />'; // For debugging
+            }
+        }
+        return $outText;
     }
 
     /**
