@@ -20,6 +20,7 @@ $config = [
             ],
             'modelMap' => [
                 'RegistrationForm' => 'app\models\RegistrationForm',
+                'User' => 'app\models\User',
                 //'Profile' => 'app\models\Profile',
             ],
 
@@ -31,9 +32,9 @@ $config = [
         'oauth2' => [
             'class' => 'filsh\yii2\oauth2server\Module',
             'tokenParamName' => 'accessToken',
-            'tokenAccessLifetime' => 3600 * 24,
+            'tokenAccessLifetime' => 3600,
             'storageMap' => [
-                'user_credentials' => 'common\models\User',
+                'user_credentials' => 'app\models\User',
             ],
             'grantTypes' => [
                 'user_credentials' => [
@@ -86,7 +87,7 @@ $config = [
             'gii/*',
             'film/*',
             'films/*',
-
+            'oauth2/*'
 //            'versioning/*',
 
             // The actions listed here will be allowed to everyone including guests.
@@ -211,7 +212,7 @@ $config = [
 
                 ]],
 //                    'api/<controller:\w+>/<action:\w+>' => '<controller>/<action>',
-                'swagger' => 'v1/default/docs',
+                'petrowski/swagger' => 'v1/default/docs',
 //                '<controller>/<action>' => '<controller>/<action>'
             ],
         ],

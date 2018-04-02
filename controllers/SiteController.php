@@ -6,6 +6,7 @@ use app\models\Smoke;
 use app\models\User;
 use Yii;
 use yii\filters\AccessControl;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
@@ -35,6 +36,12 @@ class SiteController extends Controller
                 ],
             ],
         ];
+    }
+
+    public function actionTest() {
+        $data = Json::decode(\Yii::$app->request->getRawBody());
+        //var_dump($data);
+        \Yii::$app->response->content = \Yii::$app->request->getRawBody();
     }
 
     public function actions()

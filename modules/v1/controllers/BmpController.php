@@ -20,15 +20,33 @@ use ElephantIO\Engine\SocketIO\Version2X;
 use yii\filters\AccessControl;
 use yii\data\Pagination;
 use yii\helpers\ArrayHelper;
-use filsh\yii2\oauth2server\filters\ErrorToExceptionFilter;
-use filsh\yii2\oauth2server\filters\auth\CompositeAuth;
-use yii\filters\auth\HttpBasicAuth;
 use yii\filters\auth\HttpBearerAuth;
 use yii\filters\auth\QueryParamAuth;
+use filsh\yii2\oauth2server\filters\ErrorToExceptionFilter;
+use filsh\yii2\oauth2server\filters\auth\CompositeAuth;
 use yii\filters\VerbFilter;
 
 class BmpController extends Controller implements ISensorController
 {
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return ArrayHelper::merge(parent::behaviors(), [
+            'authenticator' => [
+                'class' => CompositeAuth::className(),
+                'authMethods' => [
+                    ['class' => HttpBearerAuth::className()],
+                    ['class' => QueryParamAuth::className(), 'tokenParam' => 'accessToken'],
+                ]
+            ],
+            'exceptionFilter' => [
+                'class' => ErrorToExceptionFilter::className()
+            ],
+        ]);
+    }
+
 
     public function actionIndex()
     {
