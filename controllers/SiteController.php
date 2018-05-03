@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\Smoke;
 use app\models\User;
 use Yii;
+use yii\helpers\Html;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -14,6 +15,8 @@ use yii\web\Response;
 
 class SiteController extends Controller
 {
+//    public $enableCsrfValidation = false;
+
     public function behaviors()
     {
         return [
@@ -48,6 +51,23 @@ class SiteController extends Controller
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
         ];
+    }
+
+    public function beforeAction($action)
+    {
+        if (in_array($action->id, ['test'])) {
+            $this->enableCsrfValidation = false;
+        }
+        return parent::beforeAction($action);
+    }
+
+    public function actionTest(){
+//        $this->enableCsrfValidation = false;//отключаем проверку Csrf
+//        echo Html::csrfMetaTags();
+        $request = ['q' => 1, 'w' => 2];
+        $request = Yii::$app->request;
+        $post = $request->post();
+        var_dump($post);
     }
 
     public function actionIndex()
