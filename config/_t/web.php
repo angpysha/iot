@@ -48,6 +48,7 @@ $config = [
         'allowActions' => [
             'admin/*', // add or remove allowed actions to this list
             'user/*',
+            'swagger/*',
             'site/*',
             'debug/*',
             'gii/*',
@@ -59,6 +60,7 @@ $config = [
             'blog/*',
             'message/*',
             'api/*',
+            'dhts/*',
          ],
     ],
     'components' => [
